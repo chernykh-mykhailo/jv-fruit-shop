@@ -6,10 +6,10 @@ public class ReportGeneratorImpl implements ReportGenerator {
     @Override
     public String generate() {
         StringBuilder report = new StringBuilder("fruit,quantity\n");
-        for (String fruit : Storage.fruitStorage.keySet()) {
+        for (String fruit : Storage.getFruitStorage().keySet()) {
             report.append(fruit)
                     .append(',')
-                    .append(Storage.fruitStorage.get(fruit))
+                    .append(Storage.getFruitStorage().get(fruit))
                     .append('\n');
         }
         return report.toString();

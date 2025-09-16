@@ -6,9 +6,9 @@ import core.basesyntax.model.FruitTransaction;
 public class ReturnOperation implements OperationHandler {
     @Override
     public void handle(FruitTransaction transaction) {
-        int currentQuantity = Storage.fruitStorage
+        int currentQuantity = Storage.getFruitStorage()
                 .getOrDefault(transaction.getFruit(), 0);
-        Storage.fruitStorage.put(transaction.getFruit(), currentQuantity + transaction
-                .getQuantity());
+        int newQuantity = currentQuantity + transaction.getQuantity();
+        Storage.setFruitQuantity(transaction.getFruit(), newQuantity);
     }
 }
