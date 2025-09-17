@@ -2,7 +2,6 @@ package core.basesyntax.service.impl;
 
 import core.basesyntax.model.FruitTransaction;
 import core.basesyntax.service.DataConverter;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +31,10 @@ public class DataConverterImpl implements DataConverter {
             String fruit = parts[1].trim();
             int quantity = Integer.parseInt(parts[2].trim());
 
-            FruitTransaction.Operation operation = FruitTransaction.Operation.getByCode(operationCode);
+            FruitTransaction.Operation operation = FruitTransaction.Operation
+                    .getByCode(operationCode);
 
-            if(quantity < 0) {
+            if (quantity < 0) {
                 throw new RuntimeException("Quantity cannot be negative: " + line);
             }
             if (fruit.trim().isEmpty()) {
