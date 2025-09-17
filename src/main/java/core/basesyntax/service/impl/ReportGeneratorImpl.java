@@ -3,14 +3,16 @@ package core.basesyntax.service.impl;
 import core.basesyntax.db.Storage;
 import core.basesyntax.service.ReportGenerator;
 
+import java.util.Map;
+
 public class ReportGeneratorImpl implements ReportGenerator {
     @Override
     public String generate() {
         StringBuilder report = new StringBuilder("fruit,quantity\n");
-        for (String fruit : Storage.getFruitStorage().keySet()) {
-            report.append(fruit)
+        for (Map.Entry<String, Integer> entry : Storage.getFruitStorage().entrySet()) {
+            report.append(entry.getKey())
                     .append(',')
-                    .append(Storage.getFruitStorage().get(fruit))
+                    .append(entry.getValue())
                     .append('\n');
         }
         return report.toString();
