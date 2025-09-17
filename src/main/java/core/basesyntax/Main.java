@@ -29,18 +29,13 @@ public class Main {
     public static void main(String[] arg) {
         FileReader fileReader = new FileReaderImpl();
         List<String> inputReport = fileReader.read(INPUT_FILE_PATH);
-
         OperationStrategy operationStrategy = new OperationStrategyImpl(getOperationHandlers());
-
         DataConverter dataConverter = new DataConverterImpl();
         List<FruitTransaction> transactions = dataConverter.convertToTransaction(inputReport);
-
         ShopService shopService = new ShopServiceImpl(operationStrategy);
         shopService.process(transactions);
-
         ReportGenerator reportGenerator = new ReportGeneratorImpl();
         String resultingReport = reportGenerator.generate();
-
         FileWriter fileWriter = new FileWriterImpl();
         fileWriter.write(resultingReport, OUTPUT_FILE_PATH);
     }
