@@ -33,7 +33,7 @@ public class Main {
         try {
             inputReport = fileReader.read(INPUT_FILE_PATH);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can't find file by path: " + INPUT_FILE_PATH, e);
         }
 
         Map<FruitTransaction.Operation, OperationHandler> operationHandlers = new HashMap<>();
