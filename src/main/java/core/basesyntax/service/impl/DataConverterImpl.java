@@ -13,7 +13,7 @@ public class DataConverterImpl implements DataConverter {
     private static final int QUANTITY_INDEX = 2;
     private static final int HEADER_LINE = 0;
     private static final int PART_COUNT = 3;
-    private static final int MIN_QUANTITY  = 0;
+    private static final int MIN_QUANTITY = 0;
 
     @Override
     public List<FruitTransaction> convertToTransaction(List<String> inputReport) {
