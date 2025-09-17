@@ -2,22 +2,22 @@ package core.basesyntax;
 
 import core.basesyntax.model.FruitTransaction;
 import core.basesyntax.service.DataConverter;
-import core.basesyntax.service.DataConverterImpl;
+import core.basesyntax.service.impl.DataConverterImpl;
 import core.basesyntax.service.ShopService;
-import core.basesyntax.service.ShopSeviceImpl;
-import core.basesyntax.service.file.FileReader;
-import core.basesyntax.service.file.FileReaderImpl;
-import core.basesyntax.service.file.FileWriter;
-import core.basesyntax.service.file.FileWriterImpl;
-import core.basesyntax.service.handlers.BalanceOperation;
-import core.basesyntax.service.handlers.OperationHandler;
-import core.basesyntax.service.handlers.PurchaseOperation;
-import core.basesyntax.service.handlers.ReturnOperation;
-import core.basesyntax.service.handlers.SupplyOperation;
-import core.basesyntax.service.report.ReportGenerator;
-import core.basesyntax.service.report.ReportGeneratorImpl;
-import core.basesyntax.service.strategy.OperationStrategy;
-import core.basesyntax.service.strategy.OperationStrategyImpl;
+import core.basesyntax.service.impl.ShopServiceImpl;
+import core.basesyntax.service.FileReader;
+import core.basesyntax.service.impl.FileReaderImpl;
+import core.basesyntax.service.FileWriter;
+import core.basesyntax.service.impl.FileWriterImpl;
+import core.basesyntax.strategy.impl.BalanceOperation;
+import core.basesyntax.strategy.OperationHandler;
+import core.basesyntax.strategy.impl.PurchaseOperation;
+import core.basesyntax.strategy.impl.ReturnOperation;
+import core.basesyntax.strategy.impl.SupplyOperation;
+import core.basesyntax.service.ReportGenerator;
+import core.basesyntax.service.impl.ReportGeneratorImpl;
+import core.basesyntax.strategy.OperationStrategy;
+import core.basesyntax.strategy.impl.OperationStrategyImpl;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +46,7 @@ public class Main {
         DataConverter dataConverter = new DataConverterImpl();
         List<FruitTransaction> transactions = dataConverter.convertToTransaction(inputReport);
 
-        ShopService shopService = new ShopSeviceImpl(operationStrategy);
+        ShopService shopService = new ShopServiceImpl(operationStrategy);
         shopService.process(transactions);
 
         ReportGenerator reportGenerator = new ReportGeneratorImpl();
