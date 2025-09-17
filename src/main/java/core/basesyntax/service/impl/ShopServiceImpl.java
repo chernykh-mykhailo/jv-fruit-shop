@@ -25,6 +25,9 @@ public class ShopServiceImpl implements ShopService {
             if (transaction == null) {
                 throw new RuntimeException("Transaction in the list cannot be null");
             }
+            if (transaction.getOperation() == null) {
+                throw new RuntimeException("Transaction operation cannot be null.");
+            }
             OperationHandler handler = operationStrategy.get(transaction.getOperation());
             handler.handle(transaction);
         }

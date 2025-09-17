@@ -3,6 +3,7 @@ package core.basesyntax.service.impl;
 import core.basesyntax.model.FruitTransaction;
 import core.basesyntax.service.DataConverter;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class DataConverterImpl implements DataConverter {
@@ -14,21 +15,21 @@ public class DataConverterImpl implements DataConverter {
         if (!inputReport.get(0).trim().equals("type,fruit,quantity")) {
             throw new RuntimeException("Incorrect file header format.");
         }
+        AtomicInteger lineCounter = new AtomicInteger(1);
         return inputReport.stream()
                 .skip(1)
-                .map(this::parseLine)
+                .map(line -> parseLine(line, lineCounter.getAndIncrement()))
                 .collect(Collectors.toList());
     }
 
-    private FruitTransaction parseLine(String line) {
+    private FruitTransaction parseLine(String line, int lineNumber) {
         if (line == null) {
-            throw new RuntimeException("Line to parse cannot be null.");
+            throw new RuntimeException("Line " + lineNumber + ": Input line cannot be null.");
         }
         String[] parts = line.split(",");
         if (parts.length != 3) {
-            throw new RuntimeException("Invalid line format: " + line);
+            throw new RuntimeException("Line " + lineNumber + ": Invalid line format.");
         }
-
         try {
             String operationCode = parts[0].trim();
             String fruit = parts[1].trim();
@@ -36,14 +37,12 @@ public class DataConverterImpl implements DataConverter {
 
             FruitTransaction.Operation operation = FruitTransaction.Operation
                     .getByCode(operationCode);
-
             if (quantity < 0) {
                 throw new RuntimeException("Quantity cannot be negative: " + line);
             }
             if (fruit.trim().isEmpty()) {
                 throw new RuntimeException("Fruit name cannot be empty: " + line);
             }
-
             return new FruitTransaction(operation, fruit, quantity);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Error parsing line: " + line, e);
