@@ -7,14 +7,15 @@ import core.basesyntax.strategy.OperationHandler;
 public class PurchaseOperation implements OperationHandler {
     @Override
     public void handle(FruitTransaction transaction) {
-        int currentQuantity = Storage.getFruitStorage().getOrDefault(transaction
-                .getFruit(), 0);
+        if (transaction == null) {
+            throw new RuntimeException("Transaction cannot be null.");
+        }
+        int currentQuantity = Storage.getFruitQuantity(transaction.getFruit());
         int newQuantity = currentQuantity - transaction.getQuantity();
         if (newQuantity < 0) {
             throw new RuntimeException("Not enough fruits " + transaction.getFruit() + " available "
             + currentQuantity + ", but " + transaction.getQuantity() + " was bought.");
         }
-        Storage.setFruitQuantity(transaction.getFruit(), currentQuantity - transaction
-                .getQuantity());
+        Storage.setFruitQuantity(transaction.getFruit(), newQuantity);
     }
 }

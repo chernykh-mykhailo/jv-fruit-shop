@@ -14,7 +14,7 @@ public class Storage {
         return fruitStorage.getOrDefault(fruit, 0);
     }
 
-    public static Map<String, Integer> getFruitStorage() {
-        return fruitStorage;
+    public static Map<String, Integer> getAllFruits() {
+        return Map.copyOf(fruitStorage);
     }
 }

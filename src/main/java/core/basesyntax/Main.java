@@ -18,7 +18,6 @@ import core.basesyntax.strategy.impl.OperationStrategyImpl;
 import core.basesyntax.strategy.impl.PurchaseOperation;
 import core.basesyntax.strategy.impl.ReturnOperation;
 import core.basesyntax.strategy.impl.SupplyOperation;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,19 +28,9 @@ public class Main {
 
     public static void main(String[] arg) {
         FileReader fileReader = new FileReaderImpl();
-        List<String> inputReport = null;
-        try {
-            inputReport = fileReader.read(INPUT_FILE_PATH);
-        } catch (IOException e) {
-            throw new RuntimeException("Can't find file by path: " + INPUT_FILE_PATH, e);
-        }
+        List<String> inputReport = fileReader.read(INPUT_FILE_PATH);
 
-        Map<FruitTransaction.Operation, OperationHandler> operationHandlers = new HashMap<>();
-        operationHandlers.put(FruitTransaction.Operation.BALANCE, new BalanceOperation());
-        operationHandlers.put(FruitTransaction.Operation.SUPPLY, new SupplyOperation());
-        operationHandlers.put(FruitTransaction.Operation.PURCHASE, new PurchaseOperation());
-        operationHandlers.put(FruitTransaction.Operation.RETURN, new ReturnOperation());
-        OperationStrategy operationStrategy = new OperationStrategyImpl(operationHandlers);
+        OperationStrategy operationStrategy = new OperationStrategyImpl(getOperationHandlers());
 
         DataConverter dataConverter = new DataConverterImpl();
         List<FruitTransaction> transactions = dataConverter.convertToTransaction(inputReport);
@@ -53,10 +42,15 @@ public class Main {
         String resultingReport = reportGenerator.generate();
 
         FileWriter fileWriter = new FileWriterImpl();
-        try {
-            fileWriter.write(resultingReport, OUTPUT_FILE_PATH);
-        } catch (IOException e) {
-            throw new RuntimeException("Can't write to file: " + OUTPUT_FILE_PATH, e);
-        }
+        fileWriter.write(resultingReport, OUTPUT_FILE_PATH);
+    }
+
+    private static Map<FruitTransaction.Operation, OperationHandler> getOperationHandlers() {
+        Map<FruitTransaction.Operation, OperationHandler> operationHandlers = new HashMap<>();
+        operationHandlers.put(FruitTransaction.Operation.BALANCE, new BalanceOperation());
+        operationHandlers.put(FruitTransaction.Operation.SUPPLY, new SupplyOperation());
+        operationHandlers.put(FruitTransaction.Operation.PURCHASE, new PurchaseOperation());
+        operationHandlers.put(FruitTransaction.Operation.RETURN, new ReturnOperation());
+        return operationHandlers;
     }
 }

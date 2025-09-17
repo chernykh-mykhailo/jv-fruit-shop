@@ -7,8 +7,10 @@ import core.basesyntax.strategy.OperationHandler;
 public class SupplyOperation implements OperationHandler {
     @Override
     public void handle(FruitTransaction transaction) {
-        int currentQuantity = Storage.getFruitStorage()
-                .getOrDefault(transaction.getFruit(), 0);
+        if (transaction == null) {
+            throw new RuntimeException("Transaction cannot be null.");
+        }
+        int currentQuantity = Storage.getFruitQuantity(transaction.getFruit());
         Storage.setFruitQuantity(transaction.getFruit(),
                 currentQuantity + transaction.getQuantity());
     }

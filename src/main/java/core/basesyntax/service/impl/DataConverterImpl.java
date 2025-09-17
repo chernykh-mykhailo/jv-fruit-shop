@@ -21,6 +21,9 @@ public class DataConverterImpl implements DataConverter {
     }
 
     private FruitTransaction parseLine(String line) {
+        if (line == null) {
+            throw new RuntimeException("Line to parse cannot be null.");
+        }
         String[] parts = line.split(",");
         if (parts.length != 3) {
             throw new RuntimeException("Invalid line format: " + line);

@@ -10,6 +10,9 @@ public class ShopServiceImpl implements ShopService {
     private final OperationStrategy operationStrategy;
 
     public ShopServiceImpl(OperationStrategy operationStrategy) {
+        if (operationStrategy == null) {
+            throw new RuntimeException("Operation strategy cannot be null.");
+        }
         this.operationStrategy = operationStrategy;
     }
 
@@ -19,11 +22,10 @@ public class ShopServiceImpl implements ShopService {
             throw new RuntimeException("Transaction list cannot be null.");
         }
         for (FruitTransaction transaction : transactions) {
-            OperationHandler handler = operationStrategy.get(transaction.getOperation());
-            if (handler == null) {
-                throw new RuntimeException("No handler found for operation: " + transaction
-                        .getOperation());
+            if (transaction == null) {
+                throw new RuntimeException("Transaction in the list cannot be null");
             }
+            OperationHandler handler = operationStrategy.get(transaction.getOperation());
             handler.handle(transaction);
         }
     }
