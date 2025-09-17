@@ -56,7 +56,7 @@ public class Main {
         try {
             fileWriter.write(resultingReport, OUTPUT_FILE_PATH);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can't write to file: " + OUTPUT_FILE_PATH, e);
         }
     }
 }
