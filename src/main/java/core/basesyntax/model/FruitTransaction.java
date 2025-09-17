@@ -52,6 +52,9 @@ public class FruitTransaction {
         }
 
         public static Operation getByCode(String code) {
+            if (code == null) {
+                throw new IllegalArgumentException("Operation code cannot be null.");
+            }
             for (Operation operation : values()) {
                 if (operation.getCode().equals(code)) {
                     return operation;
