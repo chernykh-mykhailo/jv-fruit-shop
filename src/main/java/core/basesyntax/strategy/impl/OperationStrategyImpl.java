@@ -16,7 +16,7 @@ public class OperationStrategyImpl implements OperationStrategy {
         if (operationHandlers == null) {
             throw new RuntimeException("Operation handlers map cannot be null.");
         }
-        this.operationHandlers = Collections.unmodifiableMap(new HashMap<>(operationHandlers));
+        this.operationHandlers = Map.copyOf(operationHandlers);
     }
 
     @Override
