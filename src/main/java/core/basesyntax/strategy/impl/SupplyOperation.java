@@ -11,7 +11,7 @@ public class SupplyOperation implements OperationHandler {
             throw new RuntimeException("Transaction cannot be null.");
         }
         int currentQuantity = Storage.getFruitQuantity(transaction.getFruit());
-        Storage.setFruitQuantity(transaction.getFruit(),
-                currentQuantity + transaction.getQuantity());
+        int newQuantity = currentQuantity + transaction.getQuantity();
+        Storage.setFruitQuantity(transaction.getFruit(), newQuantity);
     }
 }
